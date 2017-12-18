@@ -5,6 +5,11 @@
 				<router-link to="/">Recipe Box</router-link>
 			</div>
 			<ul class="navbar__list">
+				<li class="navbar__item">
+					<form @submit.prevent="search">
+						<input type="text" class="form__control" v-model="query" name="query" placeholder="Search"/>
+					</form>
+				</li>
 				<li class="navbar__item"  v-if="guest">
 					<router-link to="/login">LOGIN</router-link>
 				</li>
@@ -14,9 +19,12 @@
 				<li class="navbar__item"  v-if="auth">
 					<router-link to="/recipes/create">CREATE RECIPE</router-link>
 				</li>
-				<li class="navbar__item"  v-if="auth">
-					<a @click.stop="logout">LOGOUT</a>
+				<li class="navbar__item"  v-if="admin">
+          <router-link to="/users">USERS</router-link>
 				</li>
+        <li class="navbar__item"  v-if="auth">
+          <a @click.stop="logout">LOGOUT</a>
+        </li>
 			</ul>
 		</div>
 		<div class="flash flash__error" v-if="flash.error">
@@ -48,16 +56,27 @@
 				if(err.response.status === 404) {
 					this.$router.push('/not-found')
 				}
+
+        if(err.response.status === 403) {
+          this.$router.push('/no-permissions')
+        }
 			})
 			Auth.initialize()
 		},
 		data() {
 			return {
 				authState: Auth.state,
-				flash: Flash.state
+				flash: Flash.state,
+        query: ''
 			}
 		},
 		computed: {
+		  admin() {
+        if(this.authState.role == 2) {
+          return true
+        }
+        return false
+			},
 			auth() {
 				if(this.authState.api_token) {
 					return true
@@ -69,6 +88,9 @@
 			}
 		},
 		methods: {
+		  search() {
+        this.$router.push('/recipes/search/' + this.query)
+			},
 			logout() {
 				post('/api/logout')
 				    .then((res) => {

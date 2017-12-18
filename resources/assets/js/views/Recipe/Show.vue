@@ -64,6 +64,19 @@
 				}
 			}
 		},
+    computed: {
+      itemId: function () {
+        return this.$route.params.id
+      },
+    },
+    watch: {
+      itemId: function (newId) {
+        get(`/api/recipes/${newId}`)
+          .then((res) => {
+            this.recipe = res.data.recipe
+          })
+      }
+    },
 		created() {
 			get(`/api/recipes/${this.$route.params.id}`)
 				.then((res) => {

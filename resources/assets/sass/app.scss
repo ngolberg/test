@@ -13,6 +13,7 @@ body {
 a {
     text-decoration: none;
     color: #616161;
+    cursor: pointer;
 }
 
 img {
@@ -22,6 +23,14 @@ img {
 
 .container {
     margin-bottom: 50px;
+}
+
+.no_results {
+    font-size: 36px;
+    line-height: 48px;
+    text-align: center;
+    padding: 50px 20px;
+    width: 100%;
 }
 
 .navbar {
@@ -42,6 +51,8 @@ img {
     &__item {
     	display: inline;
     	margin-left: 25px;
+        float: left;
+        line-height: 30px;
     }
 }
 
@@ -272,4 +283,68 @@ img {
     padding: 15px;
     width: 960px;
     margin: 30px auto;
+}
+
+.user {
+    width: 960px;
+    margin: 0 auto;
+    padding-top: 25px;
+
+    &__list {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    &__item {
+        width: 33.333%;
+    }
+    &__header {
+        box-shadow: rgba(0, 0, 0, 0.09) 0 1px 0;
+        background: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0px 15px;
+        margin-top: 10px;
+    }
+    &__inner {
+        display: block;
+        box-shadow: rgba(0, 0, 0, 0.09) 0 1px 0;
+        background: #fff;
+        margin: 10px;
+    }
+    &__name {
+        padding: 10px;
+        margin: 0px;
+    }
+    &__show {
+        width: 960px;
+        margin: 0 auto;
+        padding: 15px;
+    }
+    &__row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 25px;
+    }
+    &__box {
+        box-shadow: rgba(0, 0, 0, 0.09) 0 1px 0;
+        background: #fff;
+        padding: 15px;
+    }
+    &__title {
+        color: #E91E63;
+    }
+    &__details {
+        width: 100%;
+    }
+    &__details_inner {
+        box-shadow: rgba(0, 0, 0, 0.09) 0 1px 0;
+        background: #fff;
+        padding: 15px;
+    }
+    &__form {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 10px;
+    }
 }

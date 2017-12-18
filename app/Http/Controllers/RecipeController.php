@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\RecipeIngredient;
 use App\RecipeDirection;
 use App\Recipe;
-use App\User;
 use File;
 
 class RecipeController extends Controller
@@ -14,7 +13,7 @@ class RecipeController extends Controller
     public function __construct()
     {
     	$this->middleware('auth:api')
-    		->except(['index', 'show']);
+    		->except(['index', 'show', 'search']);
     }
 
     public function index()
@@ -28,9 +27,22 @@ class RecipeController extends Controller
     		]);
     }
 
+    public function search(Request $request)
+    {
+      $recipes = Recipe::where('name', 'like', '%' . $request->get('query') . '%')
+        ->orderBy('created_at', 'desc')
+        ->get(['id', 'name', 'image']);
+
+      return response()
+        ->json([
+          'recipes' => $recipes
+        ]);
+    }
+
     public function create()
     {
-        $form = Recipe::form();
+      $form = Recipe::form();
+
     	return response()
     		->json([
     			'form' => $form
@@ -85,7 +97,7 @@ class RecipeController extends Controller
     	    ->json([
     	        'saved' => true,
     	        'id' => $recipe->id,
-                'message' => 'You have successfully created recipe!'
+              'message' => 'You have successfully created recipe!'
     	    ]);
     }
 

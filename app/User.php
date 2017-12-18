@@ -31,4 +31,18 @@ class User extends Authenticatable
     {
         return $this->hasMany(Recipe::class);
     }
+
+    public static function form()
+    {
+      return [
+        'name' => '',
+        'email' => '',
+        'password' => '',
+      ];
+    }
+
+    public function isAdmin()
+    {
+      return ($this->role == 2);
+    }
 }

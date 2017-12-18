@@ -35,7 +35,6 @@ class Recipe extends Model
                 RecipeIngredient::form()
             ],
             'directions' => [
-                RecipeDirection::form(),
                 RecipeDirection::form()
             ]
         ];
