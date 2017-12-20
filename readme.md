@@ -18,7 +18,7 @@
 ![alt tag](https://github.com/codekerala/laravel-and-vue.js-spa-Recipe-Box/raw/master/s1.png)
 
 ### Installation
-`git clone https://github.com/codekerala/laravel-and-vue.js-spa-Recipe-Box.git`
+`git clone https://github.com/ngolberg/test.git`
 
 `laravel-and-vue.js-spa-Recipe-Box`
 
@@ -26,6 +26,3 @@
 
 `npm install`
 
-### On Youtube
-
-Development: https://youtu.be/LZcwmzTdcLE
