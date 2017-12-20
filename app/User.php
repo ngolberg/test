@@ -41,6 +41,11 @@ class User extends Authenticatable
       ];
     }
 
+    public function isModer()
+    {
+      return ($this->role > 0);
+    }
+
     public function isAdmin()
     {
       return ($this->role == 2);

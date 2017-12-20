@@ -20,10 +20,18 @@
 						<input type="email" class="form__control" required="true" v-model="form.email">
 						<small class="error__control" v-if="error.email">{{error.email[0]}}</small>
 					</div>
-					<div class="form__group">
+					<div class="form__group" v-if="this.$route.meta.mode === 'create'">
 						<label>Password</label>
 						<input type="password" class="form__control" required="true" v-model="form.password">
 						<small class="error__control" v-if="error.password">{{error.password[0]}}</small>
+					</div>
+					<div class="form__group" v-if="authState.admin">
+						<label>Role</label>
+						<select class="form__control" v-model="form.role">
+							<option value="0">Default user</option>
+							<option value="1">Moderator</option>
+							<option value="2">Admin</option>
+						</select>
 					</div>
 				</div>
 			</div>
@@ -32,6 +40,7 @@
 </template>
 <script type="text/javascript">
 	import Vue from 'vue'
+  import Auth from '../../store/auth'
 	import Flash from '../../helpers/flash'
 	import { get, post } from '../../helpers/api'
 	import { toMulipartedForm } from '../../helpers/form'
@@ -39,6 +48,7 @@
 	export default {
 		data() {
 			return {
+        authState: Auth.state,
 				form: {},
 				error: {},
 				isProcessing: false,

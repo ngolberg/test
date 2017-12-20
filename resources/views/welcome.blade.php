@@ -10,5 +10,6 @@
     <body>
         <div id="root"></div>
     </body>
+    <script src="https://cdn.jsdelivr.net/vuejs-paginator/2.0.0/vuejs-paginator.min.js"></script>
     <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
 </html>

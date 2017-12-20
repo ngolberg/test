@@ -8,7 +8,7 @@
 			</div>
 			<div class="recipe__details">
 				<div class="recipe__details_inner">
-					<small>Submitted by: {{recipe.user.name}}</small>
+					<small>Submitted by: <router-link :to="`/user/${recipe.user.id}/`">{{recipe.user.name}}</router-link></small>
 					<h1 class="recipe__title">{{recipe.name}}</h1>
 					<p class="recipe__description">{{recipe.description}}</p>
 					<div v-if="authState.api_token && authState.user_id === recipe.user_id">

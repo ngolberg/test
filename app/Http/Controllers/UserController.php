@@ -56,12 +56,14 @@ class UserController extends Controller
         'name' => 'required|max:255',
         'email' => 'required|email|max:255|unique:users',
         'password' => 'required|min:6',
+        'role' => 'required|integer|min:0|max:2',
       ]);
 
       $user = User::create([
         'name' => $request->name,
         'email' => $request->email,
         'password' => bcrypt($request->password),
+        'role' => $request->role,
       ]);
 
       return response()
@@ -96,7 +98,14 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+      $form = User::findOrFail($id, [
+          'id', 'name', 'email', 'role'
+        ]);
+
+      return response()
+        ->json([
+          'form' => $form
+        ]);
     }
 
     /**
@@ -108,7 +117,28 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $this->validate($request, [
+        'name' => 'required|max:255',
+        'email' => 'required|email|max:255',
+        'password' => 'min:6',
+        'role' => 'required|integer|min:0|max:2',
+      ]);
+
+      $user = User::findOrFail($id);
+      $user->name = $request->name;
+      $user->email = $request->email;
+      $user->role = $request->role;
+      if ($request->password) {
+        $user->password = $request->password;
+      }
+      $user->save();
+
+      return response()
+        ->json([
+          'saved' => true,
+          'id' => $user->id,
+          'message' => 'You have successfully updated user!'
+        ]);
     }
 
     /**
@@ -119,6 +149,13 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $user = User::findOrFail($id);
+
+      $user->delete();
+
+      return response()
+        ->json([
+          'deleted' => true
+        ]);
     }
 }
