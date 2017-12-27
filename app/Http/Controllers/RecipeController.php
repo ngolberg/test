@@ -12,8 +12,8 @@ class RecipeController extends Controller
 {
     public function __construct()
     {
-    	$this->middleware('auth:api')
-    		->except(['index', 'show', 'search']);
+    	$this->middleware('auth:api')->except(['index', 'show', 'search']);
+      //$this->middleware('permission:api')->only(['edit']);
     }
 
     public function index(Request $request)
@@ -38,14 +38,23 @@ class RecipeController extends Controller
 
     public function search(Request $request)
     {
-      $recipes = Recipe::where('name', 'like', '%' . $request->get('query') . '%')
-        ->orderBy('created_at', 'desc')
-        ->get(['id', 'name', 'image']);
+      $items = Recipe::where('name', 'like', '%' . $request->get('query') . '%')
+        ->orderBy('created_at', 'desc')->paginate(3);
+
+      $response = [
+        'pagination' => [
+          'total' => $items->total(),
+          'per_page' => $items->perPage(),
+          'current_page' => $items->currentPage(),
+          'last_page' => $items->lastPage(),
+          'from' => $items->firstItem(),
+          'to' => $items->lastItem()
+        ],
+        'recipes' => $items
+      ];
 
       return response()
-        ->json([
-          'recipes' => $recipes
-        ]);
+        ->json($response);
     }
 
     public function create()
@@ -147,7 +156,6 @@ class RecipeController extends Controller
 
     public function update($id, Request $request)
     {
-        // dd($request->all());
         $this->validate($request, [
             'name' => 'required|max:255',
             'description' => 'required|max:3000',
